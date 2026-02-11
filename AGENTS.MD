@@ -216,7 +216,7 @@ export PASSWORD=Pass123$
 
 ### Solution Files
 
-- `eShop.slnx` - Complete solution including all 19 projects
+- `eShop.slnx` - Complete solution including all 24 projects (19 source + 5 test)
 - `eShop.Web.slnf` - Filtered solution excluding MAUI/mobile projects (faster builds)
 
 ### Package Management
