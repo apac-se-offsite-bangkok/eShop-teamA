@@ -86,3 +86,7 @@ The Ordering bounded context is the most complex — uses full DDD tactical patt
 - `sealed` classes by default; file-scoped namespaces
 - `GlobalUsings.cs` in each project for shared imports
 - DI extension methods placed in `Microsoft.Extensions.Hosting` namespace for discoverability
+
+## Code Review Guidelines
+- Don't review and documentation or .md files
+- Don't review any image files
