@@ -1,5 +1,61 @@
 # eShop Copilot Instructions
 
+## Exclude Patterns
+
+The following file patterns should be excluded from code assistance as they are documentation or configuration files that don't require code generation:
+
+- `**/*.md` — Markdown documentation files
+- `**/README.md` — Project readme files
+- `**/CONTRIBUTING.md` — Contribution guidelines
+- `**/CODE-OF-CONDUCT.md` — Code of conduct
+- `**/.github/ISSUE_TEMPLATE/**` — GitHub issue templates
+- `**/LICENSE` — License files
+- `**/*.txt` — Text documentation files
+
+## Code Review Guidance
+
+When reviewing code changes in this repository, focus on the following key areas:
+
+### Architecture & Design
+- Verify that service-to-service communication uses the correct pattern (integration events for async, HTTP/gRPC for sync)
+- Ensure new endpoints follow the Minimal APIs pattern with proper API versioning
+- Check that DDD patterns are correctly applied in Ordering.API (aggregates, value objects, domain events)
+- Validate that commands use the CQRS pattern with proper separation from queries
+
+### Code Quality
+- Confirm all new classes are `sealed` by default unless inheritance is required
+- Verify primary constructors are used for dependency injection
+- Check that file-scoped namespaces are used consistently
+- Ensure `GlobalUsings.cs` is updated for new common imports
+- Validate that DI extension methods are in `Microsoft.Extensions.Hosting` namespace
+
+### Data & Persistence
+- Review EF Core entity configurations are in separate `IEntityTypeConfiguration<T>` classes
+- Verify migrations are created and will run automatically via `AddMigration<TContext, TSeed>()`
+- Check that database schema conventions are followed (e.g., `ordering` schema for Ordering service)
+
+### Testing
+- Ensure unit tests use MSTest with `[TestClass]` and `[TestMethod]` attributes
+- Verify functional tests use xUnit with proper fixture patterns
+- Check that test names follow the correct convention (snake_case for unit tests, PascalCase for functional tests)
+- Validate AAA (Arrange/Act/Assert) comments are present in test methods
+- Confirm NSubstitute is used correctly for mocking (not in functional tests)
+
+### Security & Best Practices
+- Verify no secrets are committed to source code
+- Check that package versions are not specified in individual `.csproj` files (use `Directory.Packages.props`)
+- Ensure `TreatWarningsAsErrors` compliance - no new warnings introduced
+- Validate proper error handling and logging patterns
+
+### Integration Events
+- Confirm events inherit from `IntegrationEvent` base class
+- Verify subscriptions are registered in `AddApplicationServices()` via `AddSubscription<TEvent, THandler>()`
+- Check that Catalog.API uses the outbox pattern for transactional consistency
+
+### OpenTelemetry & Observability
+- Ensure all services call `AddServiceDefaults()` in startup
+- Verify health check endpoints are mapped via `MapDefaultEndpoints()`
+
 ## Architecture Overview
 
 This is a .NET Aspire-orchestrated e-commerce reference app ("AdventureWorks") targeting .NET 10. The AppHost (`src/eShop.AppHost/Program.cs`) wires all services, infrastructure (PostgreSQL/pgvector, Redis, RabbitMQ), and reverse proxies (YARP mobile BFF). Services communicate asynchronously via integration events on RabbitMQ and synchronously via HTTP/gRPC.
