@@ -1,0 +1,33 @@
+name: Product Feature Request
+description: Raise a product feature request
+title: "[Feature Request]: "
+labels: ["feature-request"]
+body:
+  - type: textarea
+    id: business-impact
+    attributes:
+      label: Feature Request Business Impact
+      description: Describe the business impact of this feature request.
+      placeholder: Explain how this feature will impact the business.
+    validations:
+      required: true
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: Select the priority level for this feature request.
+      options:
+        - Critical
+        - High
+        - Medium
+        - Low
+    validations:
+      required: true
+  - type: textarea
+    id: competitor-analysis
+    attributes:
+      label: Competitor Analysis
+      description: Provide details on how competitors handle this feature.
+      placeholder: Describe any competitor implementations or market analysis.
+    validations:
+      required: true
